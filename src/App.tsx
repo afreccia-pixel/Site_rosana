@@ -3,6 +3,7 @@ import { Phone, Mail, MapPin, MessageSquare, Menu, X, Landmark, GraduationCap, S
 import { useState, useEffect } from 'react';
 import { cn } from './lib/utils';
 import rosanaImg from './assets/rosana.png';
+import rosanaJpg from './assets/rosana.jpg';
 import { CONTACT_INFO } from './contactConfig';
 
 // --- Shared Components ---
@@ -225,6 +226,19 @@ const Hero = () => {
               alt="Dra. Rosana Beling" 
               className="w-full h-full object-cover transition-all duration-700"
               referrerPolicy="no-referrer"
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.dataset.tried) {
+                  target.dataset.tried = '1';
+                  target.src = rosanaJpg;
+                } else if (target.dataset.tried === '1') {
+                  target.dataset.tried = '2';
+                  target.src = `${import.meta.env.BASE_URL}rosana.jpg`;
+                } else if (target.dataset.tried === '2') {
+                  target.dataset.tried = '3';
+                  target.src = `${import.meta.env.BASE_URL}rosana.png`;
+                }
+              }}
             />
           </div>
         </motion.div>
