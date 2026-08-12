@@ -225,18 +225,14 @@ const Hero = () => {
               src={rosanaImg} 
               alt="Dra. Rosana Beling" 
               className="w-full h-full object-cover transition-all duration-700"
-              referrerPolicy="no-referrer"
               onError={(e) => {
                 const target = e.currentTarget;
                 if (!target.dataset.tried) {
                   target.dataset.tried = '1';
-                  target.src = rosanaJpg;
+                  target.src = './rosana.png';
                 } else if (target.dataset.tried === '1') {
                   target.dataset.tried = '2';
-                  target.src = `${import.meta.env.BASE_URL}rosana.jpg`;
-                } else if (target.dataset.tried === '2') {
-                  target.dataset.tried = '3';
-                  target.src = `${import.meta.env.BASE_URL}rosana.png`;
+                  target.src = './rosana.jpg';
                 }
               }}
             />
