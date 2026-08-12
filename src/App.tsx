@@ -3,6 +3,7 @@ import { Phone, Mail, MapPin, MessageSquare, Menu, X, Landmark, GraduationCap, S
 import { useState, useEffect } from 'react';
 import { cn } from './lib/utils';
 import rosanaImg from './assets/rosana.png';
+import { CONTACT_INFO } from './contactConfig';
 
 // --- Shared Components ---
 
@@ -117,9 +118,15 @@ const Navbar = () => {
             {link.name}
           </a>
         ))}
-        <Button variant="primary" className="px-6 py-2.5">
-          Agendar Consulta
-        </Button>
+        <a 
+          href={`https://wa.me/${CONTACT_INFO.phone.whatsappNumber}?text=${encodeURIComponent(CONTACT_INFO.whatsappMessage)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Button variant="primary" className="px-6 py-2.5">
+            Agendar Consulta
+          </Button>
+        </a>
       </div>
 
       {/* Mobile Menu Icon */}
@@ -149,9 +156,16 @@ const Navbar = () => {
                 {link.name}
               </a>
             ))}
-            <Button variant="secondary" className="mt-4">
-              Agendar Consulta
-            </Button>
+            <a 
+              href={`https://wa.me/${CONTACT_INFO.phone.whatsappNumber}?text=${encodeURIComponent(CONTACT_INFO.whatsappMessage)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              <Button variant="secondary" className="mt-4 w-full">
+                Agendar Consulta
+              </Button>
+            </a>
           </div>
         </motion.div>
       )}
@@ -179,13 +193,21 @@ const Hero = () => {
               Atendimento humanizado e especializado focado em soluções ágeis para questões de Direito Imobiliário, Família e Consultoria Empresarial.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button variant="whatsapp" className="px-10 py-4">
-                <MessageSquare className="w-5 h-5 fill-current" />
-                Falar no WhatsApp
-              </Button>
-              <Button variant="outline" className="px-10 py-4">
-                Conhecer Dra. Rosana
-              </Button>
+              <a 
+                href={`https://wa.me/${CONTACT_INFO.phone.whatsappNumber}?text=${encodeURIComponent(CONTACT_INFO.whatsappMessage)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Button variant="whatsapp" className="px-10 py-4 w-full sm:w-auto">
+                  <MessageSquare className="w-5 h-5 fill-current" />
+                  Falar no WhatsApp
+                </Button>
+              </a>
+              <a href="#sobre">
+                <Button variant="outline" className="px-10 py-4 w-full sm:w-auto">
+                  Conhecer Dra. Rosana
+                </Button>
+              </a>
             </div>
           </motion.div>
         </div>
@@ -415,7 +437,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-navy text-sm uppercase tracking-wider mb-1">Telefone e WhatsApp</h4>
-                  <p className="text-gray-500 text-sm">(11) 98765-4321</p>
+                  <p className="text-gray-500 text-sm">{CONTACT_INFO.phone.display}</p>
                 </div>
               </div>
               <div className="flex items-start gap-5">
@@ -424,7 +446,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-navy text-sm uppercase tracking-wider mb-1">Correio Eletrônico</h4>
-                  <p className="text-gray-500 text-sm">contato@rosanabeling.adv.br</p>
+                  <p className="text-gray-500 text-sm">{CONTACT_INFO.email}</p>
                 </div>
               </div>
               <div className="flex items-start gap-5">
@@ -433,7 +455,7 @@ const Contact = () => {
                 </div>
                 <div>
                   <h4 className="font-bold text-navy text-sm uppercase tracking-wider mb-1">Escritório Central</h4>
-                  <p className="text-gray-500 text-sm">Av. Paulista, 1000, 15º Andar - São Paulo, SP</p>
+                  <p className="text-gray-500 text-sm">{CONTACT_INFO.address.full}</p>
                 </div>
               </div>
             </div>
@@ -446,19 +468,19 @@ const Contact = () => {
             viewport={{ once: true }}
           >
             <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 rounded-full -mr-16 -mt-16 blur-3xl" />
-            <form className="space-y-6 relative z-10">
+            <form className="space-y-6 relative z-10" onSubmit={(e) => { e.preventDefault(); alert('Mensagem enviada com sucesso!'); }}>
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-navy/40 ml-1">Nome Completo</label>
-                <input type="text" placeholder="Ex: Maria Silva" className="w-full bg-white border border-navy/10 rounded-xl p-4 outline-none focus:border-gold/50 transition-all shadow-sm text-sm" />
+                <input type="text" placeholder="Ex: Maria Silva" className="w-full bg-white border border-navy/10 rounded-xl p-4 outline-none focus:border-gold/50 transition-all shadow-sm text-sm" required />
               </div>
               <div className="grid grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-navy/40 ml-1">E-mail</label>
-                  <input type="email" placeholder="maria@exemplo.com" className="w-full bg-white border border-navy/10 rounded-xl p-4 outline-none focus:border-gold/50 transition-all shadow-sm text-sm" />
+                  <input type="email" placeholder="maria@exemplo.com" className="w-full bg-white border border-navy/10 rounded-xl p-4 outline-none focus:border-gold/50 transition-all shadow-sm text-sm" required />
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-navy/40 ml-1">Telefone</label>
-                  <input type="tel" placeholder="(11) 99999-9999" className="w-full bg-white border border-navy/10 rounded-xl p-4 outline-none focus:border-gold/50 transition-all shadow-sm text-sm" />
+                  <input type="tel" placeholder="(47) 99999-9999" className="w-full bg-white border border-navy/10 rounded-xl p-4 outline-none focus:border-gold/50 transition-all shadow-sm text-sm" />
                 </div>
               </div>
               <div className="space-y-2">
@@ -472,7 +494,7 @@ const Contact = () => {
               </div>
               <div className="space-y-2">
                 <label className="text-[10px] uppercase tracking-[0.2em] font-bold text-navy/40 ml-1">Mensagem</label>
-                <textarea placeholder="Como podemos auxiliar seu caso?" rows={4} className="w-full bg-white border border-navy/10 rounded-xl p-4 outline-none focus:border-gold/50 transition-all shadow-sm text-sm resize-none"></textarea>
+                <textarea placeholder="Como podemos auxiliar seu caso?" rows={4} className="w-full bg-white border border-navy/10 rounded-xl p-4 outline-none focus:border-gold/50 transition-all shadow-sm text-sm resize-none" required></textarea>
               </div>
               <Button type="submit" variant="primary" className="w-full py-5 rounded-xl">
                 Enviar Mensagem
@@ -498,43 +520,51 @@ const Footer = () => {
               <span className="font-serif font-bold text-lg text-white">ROSANA BELING</span>
             </div>
             <p className="text-[10px] leading-relaxed mb-6 normal-case tracking-normal">
-              Advocacia moderna, estratégica e comprometida com a proteção dos seus direitos e patrimônio em São Paulo.
+              Advocacia moderna, estratégica e comprometida com a proteção dos seus direitos e patrimônio em {CONTACT_INFO.address.city} - {CONTACT_INFO.address.state}.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="hover:text-gold transition-colors text-[10px]">Instagram</a>
-              <a href="#" className="hover:text-gold transition-colors text-[10px]">LinkedIn</a>
+              <a href={CONTACT_INFO.social.facebook} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors text-[10px]">Facebook</a>
+              <a href={`https://wa.me/${CONTACT_INFO.phone.whatsappNumber}?text=${encodeURIComponent(CONTACT_INFO.whatsappMessage)}`} target="_blank" rel="noopener noreferrer" className="hover:text-gold transition-colors text-[10px]">WhatsApp</a>
             </div>
           </div>
 
           <div>
             <h4 className="font-bold text-[10px] mb-6 text-gold">Endereço</h4>
             <p className="text-[10px] leading-relaxed normal-case tracking-normal">
-              Av. Paulista, 1000, 15º Andar<br />
-              São Paulo, SP - 01310-100
+              {CONTACT_INFO.address.street} - {CONTACT_INFO.address.neighborhood}<br />
+              {CONTACT_INFO.address.city} - {CONTACT_INFO.address.state}, {CONTACT_INFO.address.zipCode}
             </p>
           </div>
 
           <div>
             <h4 className="font-bold text-[10px] mb-6 text-gold">Contato</h4>
             <p className="text-[10px] leading-relaxed normal-case tracking-normal">
-              (11) 98765-4321<br />
-              contato@rosanabeling.adv.br
+              {CONTACT_INFO.phone.display}<br />
+              {CONTACT_INFO.email}
             </p>
           </div>
 
           <div>
             <h4 className="font-bold text-[10px] mb-6 text-gold">Credenciais</h4>
-            <p className="text-[10px] leading-relaxed uppercase tracking-widest">
-              OAB/SP 123.456
+            <p className="text-[10px] leading-relaxed uppercase tracking-widest font-bold text-white">
+              {CONTACT_INFO.oab}
             </p>
           </div>
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[9px]">
           <p>© 2026 Rosana Beling Advocacia. Todos os direitos reservados.</p>
-          <div className="flex gap-6">
+          <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6">
             <a href="#" className="hover:text-white transition-colors">Termos de Uso</a>
             <a href="#" className="hover:text-white transition-colors">Privacidade</a>
+            <a 
+              href={CONTACT_INFO.social.instagramDev} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="hover:text-gold transition-colors text-slate-400"
+            >
+              Site desenvolvido por <span className="text-gold font-semibold hover:underline">{CONTACT_INFO.social.devName}</span>
+            </a>
           </div>
         </div>
       </div>
@@ -549,7 +579,7 @@ const WhatsAppButton = () => {
         Dra. Rosana está Online
       </div>
       <motion.a 
-        href="https://wa.me/5511987654321?text=Olá, gostaria de agendar uma consulta."
+        href={`https://wa.me/${CONTACT_INFO.phone.whatsappNumber}?text=${encodeURIComponent(CONTACT_INFO.whatsappMessage)}`}
         target="_blank"
         rel="noopener noreferrer"
         className="bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:scale-110 transition-transform duration-300"
