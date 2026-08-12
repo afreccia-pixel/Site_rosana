@@ -1,37 +1,51 @@
 import fs from 'fs';
 import path from 'path';
-import { execSync } from 'child_process';
+import sharp from 'sharp';
 
-const candidates = [
-  'public/rosana.png',
-  'public/rosana.jpg',
-  'public/rosana.jpeg',
-  'src/assets/rosana.png',
-  'src/assets/rosana.jpg',
-  'src/assets/rosana.jpeg'
-];
+async function optimize() {
+  const dirs = ['public', 'src/assets'];
+  let foundFile = null;
 
-let targetImg = candidates.find(p => fs.existsSync(p));
-
-if (targetImg) {
-  console.log(`Found image at ${targetImg}, processing...`);
-  const optPath = 'src/assets/rosana_opt.jpg';
-  
-  try {
-    execSync(`convert "${targetImg}" -resize 800x800 -quality 85 "${optPath}"`, { stdio: 'ignore' });
-    targetImg = optPath;
-  } catch (e) {
-    console.log('ImageMagick convert not available, using raw file.');
+  for (const dir of dirs) {
+    if (!fs.existsSync(dir)) continue;
+    const files = fs.readdirSync(dir);
+    for (const file of files) {
+      if (/^rosana\.(png|jpg|jpeg|webp)$/i.test(file)) {
+        foundFile = path.join(dir, file);
+        break;
+      }
+    }
+    if (foundFile) break;
   }
 
-  const buf = fs.readFileSync(targetImg);
-  const ext = path.extname(targetImg).toLowerCase();
-  const mime = (ext === '.png') ? 'image/png' : 'image/jpeg';
-  const b64 = `data:${mime};base64,` + buf.toString('base64');
-  
-  const content = `export const rosanaImage = ${JSON.stringify(b64)};\n`;
-  fs.writeFileSync('src/assets/rosanaData.ts', content);
-  console.log(`Updated src/assets/rosanaData.ts successfully (${b64.length} chars).`);
-} else {
-  console.log('No rosana image found in candidates. Skipping.');
+  if (!foundFile) {
+    console.log('No rosana image found. Keeping default rosanaData.ts.');
+    return;
+  }
+
+  console.log(`Found image: ${foundFile}`);
+
+  try {
+    // Rotate automatically based on EXIF (phone camera photos), resize to max 1000px, compress jpeg quality 85
+    const processedBuffer = await sharp(foundFile)
+      .rotate()
+      .resize(1000, 1000, { fit: 'inside', withoutEnlargement: true })
+      .jpeg({ quality: 85 })
+      .toBuffer();
+
+    const b64 = 'data:image/jpeg;base64,' + processedBuffer.toString('base64');
+    const content = `export const rosanaImage = ${JSON.stringify(b64)};\n`;
+    
+    fs.writeFileSync('src/assets/rosanaData.ts', content);
+    console.log(`Successfully generated src/assets/rosanaData.ts (Base64 size: ${(b64.length / 1024).toFixed(1)} KB)`);
+
+    // Also copy optimized JPEG to public/rosana.jpg and public/rosana.png for direct static serving
+    fs.writeFileSync('public/rosana.jpg', processedBuffer);
+    fs.writeFileSync('public/rosana.png', processedBuffer);
+    console.log('Updated public/rosana.jpg and public/rosana.png with optimized image.');
+  } catch (err) {
+    console.error('Error processing image with sharp:', err);
+  }
 }
+
+optimize();

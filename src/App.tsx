@@ -223,20 +223,22 @@ const Hero = () => {
           <div className="absolute inset-0 bg-gold rounded-[80px_20px_80px_20px] transform rotate-3" />
           <div className="absolute inset-0 bg-navy rounded-[80px_20px_80px_20px] overflow-hidden">
             <img 
-              src={rosanaImage || rosanaImg} 
+              src={rosanaImage || rosanaImg || rosanaJpg} 
               alt="Dra. Rosana Beling" 
               className="w-full h-full object-cover transition-all duration-700"
               onError={(e) => {
                 const target = e.currentTarget;
-                if (!target.dataset.tried) {
-                  target.dataset.tried = '1';
-                  target.src = rosanaImg;
-                } else if (target.dataset.tried === '1') {
-                  target.dataset.tried = '2';
-                  target.src = rosanaJpg;
-                } else if (target.dataset.tried === '2') {
-                  target.dataset.tried = '3';
-                  target.src = './rosana.png';
+                const step = parseInt(target.dataset.tried || '0', 10);
+                const fallbacks = [
+                  rosanaImg,
+                  rosanaJpg,
+                  './rosana.jpg',
+                  './rosana.png',
+                  './rosana.jpeg'
+                ];
+                if (step < fallbacks.length) {
+                  target.dataset.tried = String(step + 1);
+                  target.src = fallbacks[step];
                 }
               }}
             />
