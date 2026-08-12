@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { Phone, Mail, MapPin, MessageSquare, Menu, X, Landmark, GraduationCap, Scale, ShieldCheck, Briefcase, Users, Building2, Gavel, FileText, ChevronRight, Star, Instagram, Linkedin, Facebook } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { cn } from './lib/utils';
+import { rosanaImage } from './assets/rosanaData';
 import rosanaImg from './assets/rosana.png';
 import rosanaJpg from './assets/rosana.jpg';
 import { CONTACT_INFO } from './contactConfig';
@@ -222,17 +223,20 @@ const Hero = () => {
           <div className="absolute inset-0 bg-gold rounded-[80px_20px_80px_20px] transform rotate-3" />
           <div className="absolute inset-0 bg-navy rounded-[80px_20px_80px_20px] overflow-hidden">
             <img 
-              src={rosanaImg} 
+              src={rosanaImage || rosanaImg} 
               alt="Dra. Rosana Beling" 
               className="w-full h-full object-cover transition-all duration-700"
               onError={(e) => {
                 const target = e.currentTarget;
                 if (!target.dataset.tried) {
                   target.dataset.tried = '1';
-                  target.src = './rosana.png';
+                  target.src = rosanaImg;
                 } else if (target.dataset.tried === '1') {
                   target.dataset.tried = '2';
-                  target.src = './rosana.jpg';
+                  target.src = rosanaJpg;
+                } else if (target.dataset.tried === '2') {
+                  target.dataset.tried = '3';
+                  target.src = './rosana.png';
                 }
               }}
             />
