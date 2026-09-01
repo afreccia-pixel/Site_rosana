@@ -1,5 +1,5 @@
 // =========================================================================
-// ARCHIVO DE CONFIGURAÇÃO DE CONTATO E INFORMAÇÕES DO ESCRITÓRIO
+// ARQUIVO DE CONFIGURAÇÃO DE CONTATO E INFORMAÇÕES DO ESCRITÓRIO
 // Edite os valores abaixo para atualizar o endereço, telefone, e-mail, etc.
 // =========================================================================
 
@@ -7,6 +7,7 @@ export const CONTACT_INFO = {
   // Nome do escritório / advogada
   name: 'Rosana Beling',
   title: 'ROSANA BELING ADVOCACIA',
+  tagline: 'ADVOCACIA COM PROPÓSITO',
   
   // Endereço completo
   address: {
@@ -21,9 +22,9 @@ export const CONTACT_INFO = {
   // Telefone e WhatsApp
   phone: {
     display: '(47) 3367-5448',
-    whatsappDisplay: '(47) 3367-5448',
+    whatsappDisplay: '(47) 99227-9984',
     // Número para o link do WhatsApp (somente números com código do país 55)
-    whatsappNumber: '554733675448',
+    whatsappNumber: '5547992279984',
   },
 
   // E-mail de contato
@@ -40,5 +41,6 @@ export const CONTACT_INFO = {
   },
 
   // Mensagem padrão ao clicar no botão do WhatsApp
-  whatsappMessage: 'Olá! Gostaria de agendar uma consulta jurídica.',
+  whatsappMessage: 'Olá, Dra. Rosana! Gostaria de agendar uma consulta jurídica.',
 };
+
