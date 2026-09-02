@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { MessageCircle } from 'lucide-react';
-import { rosanaImage } from '../assets/rosanaData';
+import rosanaImg from '../assets/rosana.jpg';
 import { CONTACT_INFO } from '../contactConfig';
 
 export const Hero: React.FC = () => {
@@ -15,7 +15,7 @@ export const Hero: React.FC = () => {
       <div className="hidden md:flex absolute right-0 top-0 bottom-0 w-[60%] lg:w-[64%] xl:w-[67%] 2xl:w-[70%] h-full pointer-events-none z-0 items-end justify-end">
         <div className="relative h-[94%] lg:h-[98%] xl:h-full max-h-[760px] 2xl:max-h-[840px] w-full flex items-end justify-end pr-0 lg:pr-2 xl:pr-6">
           <img
-            src={'/rosana.png?v=' + Date.now()}
+            src={rosanaImg || '/rosana.jpg'}
             alt="Dra. Rosana Beling - Advocacia com Propósito"
             className="h-full w-auto max-w-full object-contain object-bottom"
             style={{
@@ -25,7 +25,12 @@ export const Hero: React.FC = () => {
             onError={(e) => {
               const target = e.currentTarget;
               const step = parseInt(target.dataset.tried || '0', 10);
-              const fallbacks = [rosanaImage, './rosana.png', '/rosana.jpg', './rosana.jpg'];
+              const fallbacks = [
+                '/rosana.jpg',
+                './rosana.jpg',
+                '/rosana_perfil.jpg',
+                './rosana_perfil.jpg'
+              ];
               if (step < fallbacks.length) {
                 target.dataset.tried = String(step + 1);
                 target.src = fallbacks[step];
@@ -41,12 +46,22 @@ export const Hero: React.FC = () => {
           <div className="block md:hidden mb-2 relative">
             <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#E8E2D8] bg-[#EBE4D8]/40 max-w-sm mx-auto">
               <img
-                src={'/rosana.png?v=' + Date.now()}
+                src={rosanaImg || '/rosana.jpg'}
                 alt="Dra. Rosana Beling"
                 className="w-full h-auto object-cover max-h-[380px]"
                 onError={(e) => {
                   const target = e.currentTarget;
-                  target.src = rosanaImage || '/rosana.jpg';
+                  const step = parseInt(target.dataset.tried || '0', 10);
+                  const fallbacks = [
+                    '/rosana.jpg',
+                    './rosana.jpg',
+                    '/rosana_perfil.jpg',
+                    './rosana_perfil.jpg'
+                  ];
+                  if (step < fallbacks.length) {
+                    target.dataset.tried = String(step + 1);
+                    target.src = fallbacks[step];
+                  }
                 }}
               />
               <div className="absolute bottom-3 left-3 right-3 bg-white/90 backdrop-blur-sm px-3.5 py-2 rounded-lg border border-white/60 flex items-center justify-between text-xs shadow-sm">

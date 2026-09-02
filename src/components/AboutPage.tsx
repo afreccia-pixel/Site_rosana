@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowLeft } from 'lucide-react';
 import { CONTACT_INFO } from '../contactConfig';
-import rosanaPerfilImg from '../assets/rosana_perfil.jpeg';
+import rosanaPerfilImg from '../assets/rosana_perfil.jpg';
 
 interface AboutPageProps {
   onNavigate: (page: string, anchor?: string) => void;
@@ -43,7 +43,7 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
             {/* Portrait Image Container */}
             <div className="rounded-2xl overflow-hidden shadow-xl border border-[#B88E5E]/40 bg-white">
               <img
-                src={rosanaPerfilImg || '/rosana_perfil.jpeg'}
+                src={rosanaPerfilImg || '/rosana_perfil.jpg'}
                 alt="Dra. Rosana Beling - Advogada OAB/SC 24.701"
                 className="w-full h-auto object-cover object-top max-h-[580px]"
                 referrerPolicy="no-referrer"
@@ -51,8 +51,6 @@ export const AboutPage: React.FC<AboutPageProps> = ({ onNavigate }) => {
                   const target = e.currentTarget;
                   const step = parseInt(target.dataset.tried || '0', 10);
                   const fallbacks = [
-                    '/rosana_perfil.jpeg',
-                    './rosana_perfil.jpeg',
                     '/rosana_perfil.jpg',
                     './rosana_perfil.jpg',
                     '/rosana.jpg',

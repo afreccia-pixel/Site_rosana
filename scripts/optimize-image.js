@@ -39,10 +39,10 @@ async function optimize() {
     fs.writeFileSync('src/assets/rosanaData.ts', content);
     console.log(`Successfully generated src/assets/rosanaData.ts (Base64 size: ${(b64.length / 1024).toFixed(1)} KB)`);
 
-    // Also copy optimized JPEG to public/rosana.jpg and public/rosana.png for direct static serving
+    // Also copy optimized JPEG to public/rosana.jpg and src/assets/rosana.jpg for direct static serving
     fs.writeFileSync('public/rosana.jpg', processedBuffer);
-    fs.writeFileSync('public/rosana.png', processedBuffer);
-    console.log('Updated public/rosana.jpg and public/rosana.png with optimized image.');
+    fs.writeFileSync('src/assets/rosana.jpg', processedBuffer);
+    console.log('Updated public/rosana.jpg and src/assets/rosana.jpg with optimized image.');
   } catch (err) {
     console.error('Error processing image with sharp:', err);
   }
