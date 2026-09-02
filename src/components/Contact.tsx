@@ -65,7 +65,7 @@ export const Contact: React.FC = () => {
                     rel="noopener noreferrer"
                     className="text-sm font-semibold text-[#B88E5E] hover:underline"
                   >
-                    {CONTACT_INFO.phone.whatsappDisplay || '(47) 99227-9984'}
+                    {CONTACT_INFO.phone.whatsappDisplay}
                   </a>
                   <span className="text-xs text-[#5C544E] block mt-0.5">
                     Fixo: {CONTACT_INFO.phone.display}

@@ -159,7 +159,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 className="flex items-center gap-2.5 hover:text-white transition-colors"
               >
                 <MessageCircle className="w-4 h-4 text-[#B88E5E] shrink-0" />
-                <span>WhatsApp: {CONTACT_INFO.phone.whatsappDisplay || '(47) 99227-9984'}</span>
+                <span>WhatsApp: {CONTACT_INFO.phone.whatsappDisplay}</span>
               </a>
               <a
                 href={`mailto:${CONTACT_INFO.email}`}

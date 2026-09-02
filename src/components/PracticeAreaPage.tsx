@@ -60,14 +60,14 @@ export const PracticeAreaPage: React.FC<PracticeAreaPageProps> = ({ slug, onNavi
       '@type': 'LegalService',
       'name': 'Rosana Beling Advocacia',
       'url': 'https://SEU_DOMINIO.com.br/',
-      'telephone': '+5547992279984',
+      'telephone': `+${CONTACT_INFO.phone.whatsappNumber}`,
       'priceRange': '$$',
       'address': {
         '@type': 'PostalAddress',
-        'streetAddress': 'Av. Brasil, 2816 - Centro',
-        'addressLocality': 'Balneário Camboriú',
-        'addressRegion': 'SC',
-        'postalCode': '88330-058',
+        'streetAddress': `${CONTACT_INFO.address.street} - ${CONTACT_INFO.address.neighborhood}`,
+        'addressLocality': CONTACT_INFO.address.city,
+        'addressRegion': CONTACT_INFO.address.state,
+        'postalCode': CONTACT_INFO.address.zipCode,
         'addressCountry': 'BR'
       }
     },

@@ -222,7 +222,7 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
             className="inline-flex items-center justify-center gap-2 px-4 py-2 border border-[#B88E5E] text-[#B88E5E] hover:bg-[#B88E5E] hover:text-white rounded text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-sm"
           >
             <MessageCircle className="w-3.5 h-3.5 fill-current" />
-            <span>(47) 99227-9984</span>
+            <span>{CONTACT_INFO.phone.whatsappDisplay}</span>
           </a>
         </div>
 

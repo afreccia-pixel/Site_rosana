@@ -22,9 +22,9 @@ export const CONTACT_INFO = {
   // Telefone e WhatsApp
   phone: {
     display: '(47) 3367-5448',
-    whatsappDisplay: '(47) 99227-9984',
+    whatsappDisplay: '(47) 99977-9690',
     // Número para o link do WhatsApp (somente números com código do país 55)
-    whatsappNumber: '5547992279984',
+    whatsappNumber: '5547999779690',
   },
 
   // E-mail de contato

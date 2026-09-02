@@ -4,6 +4,32 @@ import path from 'path';
 const DOMAIN = 'https://SEU_DOMINIO.com.br';
 const TODAY = new Date().toISOString().split('T')[0];
 
+function loadContactConfig() {
+  try {
+    const content = fs.readFileSync(path.resolve(process.cwd(), 'src/contactConfig.ts'), 'utf8');
+    const whatsappNumber = (content.match(/whatsappNumber:\s*['"]([^'"]+)['"]/) || [])[1] || '5547999779690';
+    const whatsappDisplay = (content.match(/whatsappDisplay:\s*['"]([^'"]+)['"]/) || [])[1] || '(47) 99977-9690';
+    const phoneDisplay = (content.match(/display:\s*['"]([^'"]+)['"]/) || [])[1] || '(47) 3367-5448';
+    const email = (content.match(/email:\s*['"]([^'"]+)['"]/) || [])[1] || 'rb.advocaciabc@gmail.com';
+    const oab = (content.match(/oab:\s*['"]([^'"]+)['"]/) || [])[1] || 'OAB/SC 24.701';
+    const street = (content.match(/street:\s*['"]([^'"]+)['"]/) || [])[1] || 'Av. Brasil, 2816';
+    const fullAddress = (content.match(/full:\s*['"]([^'"]+)['"]/) || [])[1] || 'Av. Brasil, 2816 - Centro, Balneário Camboriú - SC, 88330-058';
+    return { whatsappNumber, whatsappDisplay, phoneDisplay, email, oab, street, fullAddress };
+  } catch {
+    return {
+      whatsappNumber: '5547999779690',
+      whatsappDisplay: '(47) 99977-9690',
+      phoneDisplay: '(47) 3367-5448',
+      email: 'rb.advocaciabc@gmail.com',
+      oab: 'OAB/SC 24.701',
+      street: 'Av. Brasil, 2816',
+      fullAddress: 'Av. Brasil, 2816 - Centro, Balneário Camboriú - SC, 88330-058',
+    };
+  }
+}
+
+const CONTACT = loadContactConfig();
+
 const PRACTICE_AREAS = [
   {
     slug: 'familia',
@@ -301,10 +327,10 @@ async function runPrerender() {
         '@type': 'LegalService',
         'name': 'Rosana Beling Advocacia',
         'url': `${DOMAIN}/`,
-        'telephone': '+5547992279984',
+        'telephone': `+${CONTACT.whatsappNumber}`,
         'address': {
           '@type': 'PostalAddress',
-          'streetAddress': 'Av. Brasil, 2816 - Centro',
+          'streetAddress': `${CONTACT.street} - Centro`,
           'addressLocality': 'Balneário Camboriú',
           'addressRegion': 'SC',
           'postalCode': '88330-058',
@@ -395,9 +421,9 @@ async function runPrerender() {
         </section>
 
         <footer style="text-align: center; padding: 2rem; background: #211C19; color: #FAF7F2; border-radius: 16px;">
-          <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: #FAF7F2;">Rosana Beling Advocacia - OAB/SC 24.701</h2>
-          <p style="font-size: 0.95rem; color: #D8CEBE; margin-bottom: 1rem;">Av. Brasil, 2816 - Centro, Balneário Camboriú - SC • Tel / WhatsApp: (47) 99227-9984</p>
-          <a href="https://wa.me/5547992279984" style="color: #B88E5E; text-decoration: none; font-weight: bold;">Iniciar Atendimento pelo WhatsApp →</a>
+          <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem; color: #FAF7F2;">Rosana Beling Advocacia - ${CONTACT.oab}</h2>
+          <p style="font-size: 0.95rem; color: #D8CEBE; margin-bottom: 1rem;">${CONTACT.fullAddress} • Tel / WhatsApp: ${CONTACT.whatsappDisplay}</p>
+          <a href="https://wa.me/${CONTACT.whatsappNumber}" style="color: #B88E5E; text-decoration: none; font-weight: bold;">Iniciar Atendimento pelo WhatsApp →</a>
         </footer>
       </div>
     `;
@@ -445,7 +471,7 @@ async function runPrerender() {
   const contatoHtml = generateHtmlForRoute(baseTemplate, {
     path: '/contato',
     title: 'Contato e Localização | Dra. Rosana Beling Advocacia Balneário Camboriú',
-    description: 'Agende uma consulta presencial ou online com a Dra. Rosana Beling. Escritório na Av. Brasil, 2816 - Centro, Balneário Camboriú - SC. WhatsApp (47) 99227-9984.',
+    description: `Agende uma consulta presencial ou online com a Dra. Rosana Beling. Escritório na ${CONTACT.street} - Centro, Balneário Camboriú - SC. WhatsApp ${CONTACT.whatsappDisplay}.`,
   });
   fs.writeFileSync(path.join(contatoDir, 'index.html'), contatoHtml);
   console.log('✓ Pre-rendered: dist/contato/index.html');
