@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Menu, X, MessageCircle, ChevronDown, ChevronRight, HeartHandshake, Scroll, Building2, FileCheck2, User, MapPin, Star } from 'lucide-react';
+import { Menu, X, MessageCircle, ChevronDown, ChevronRight, HeartHandshake, Scroll, Building2, FileCheck2, User, MapPin, Star, ArrowRight } from 'lucide-react';
 import { Logo } from './Logo';
 import { CONTACT_INFO } from '../contactConfig';
 
@@ -46,10 +46,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
   )}`;
 
   const practiceAreasList = [
-    { id: 'area-familia', title: 'Direito de Família', desc: 'Divórcio, guarda, pensão e partilha', icon: HeartHandshake },
-    { id: 'area-sucessoes', title: 'Sucessões', desc: 'Inventários, testamentos e herança', icon: Scroll },
-    { id: 'area-imobiliario', title: 'Direito Imobiliário', desc: 'Contratos, locações e compra/venda', icon: Building2 },
-    { id: 'area-regularizacao', title: 'Regularização de Imóveis', desc: 'Usucapião, escrituras e averbações', icon: FileCheck2 },
+    { slug: 'familia', id: 'area-familia', title: 'Direito de Família', desc: 'Divórcio, guarda, pensão e partilha', icon: HeartHandshake },
+    { slug: 'sucessoes', id: 'area-sucessoes', title: 'Sucessões', desc: 'Inventários, testamentos e herança', icon: Scroll },
+    { slug: 'imobiliario', id: 'area-imobiliario', title: 'Direito Imobiliário', desc: 'Contratos, locações e compra/venda', icon: Building2 },
+    { slug: 'regularizacao', id: 'area-regularizacao', title: 'Regularização de Imóveis', desc: 'Usucapião, escrituras e averbações', icon: FileCheck2 },
   ];
 
   const handleNavClick = (page: string, anchor?: string) => {
@@ -57,8 +57,9 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
     onNavigate(page, anchor);
   };
 
+  const isAreaPage = ['familia', 'sucessoes', 'imobiliario', 'regularizacao'].includes(currentPage);
   const isHomeActive = currentPage === 'home' && (activeSection === 'home' || activeSection === '');
-  const isAreasActive = currentPage === 'home' && activeSection === 'areas';
+  const isAreasActive = (currentPage === 'home' && activeSection === 'areas') || isAreaPage;
   const isAvaliacoesActive = currentPage === 'home' && activeSection === 'avaliacoes';
   const isSobreActive = currentPage === 'sobre';
   const isContatoActive = currentPage === 'contato';
@@ -114,19 +115,29 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
             </button>
 
             {/* Desktop Dropdown Flyout */}
-            <div className="absolute top-full left-0 mt-2 w-64 bg-[#FAF7F2] rounded-xl shadow-xl border border-[#E8E2D8] p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+            <div className="absolute top-full left-0 mt-2 w-72 bg-[#FAF7F2] rounded-xl shadow-xl border border-[#E8E2D8] p-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div className="px-2.5 py-1.5 border-b border-[#E8E2D8] mb-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-[#8C663D]">
+                  Páginas das Especialidades
+                </span>
+              </div>
               {practiceAreasList.map((area) => {
                 const Icon = area.icon;
+                const isCurrent = currentPage === area.slug;
                 return (
                   <button
-                    key={area.id}
-                    onClick={() => handleNavClick('home', area.id)}
-                    className="w-full text-left flex items-center gap-3 p-2.5 rounded-lg hover:bg-white text-[#4A423D] hover:text-[#B88E5E] transition-colors group/item cursor-pointer"
+                    key={area.slug}
+                    onClick={() => handleNavClick(area.slug)}
+                    className={`w-full text-left flex items-center gap-3 p-2.5 rounded-lg transition-colors group/item cursor-pointer ${
+                      isCurrent
+                        ? 'bg-white text-[#B88E5E] border border-[#B88E5E]/40'
+                        : 'hover:bg-white text-[#4A423D] hover:text-[#B88E5E]'
+                    }`}
                   >
-                    <div className="w-7 h-7 rounded-md bg-white border border-[#E8E2D8] flex items-center justify-center text-[#B88E5E] group-hover/item:bg-[#B88E5E] group-hover/item:text-white transition-colors">
+                    <div className="w-7 h-7 rounded-md bg-white border border-[#E8E2D8] flex items-center justify-center text-[#B88E5E] group-hover/item:bg-[#B88E5E] group-hover/item:text-white transition-colors shrink-0">
                       <Icon className="w-3.5 h-3.5" />
                     </div>
-                    <div>
+                    <div className="flex-1 min-w-0">
                       <span className="text-xs font-semibold block leading-tight text-[#211C19] group-hover/item:text-[#B88E5E]">
                         {area.title}
                       </span>
@@ -134,9 +145,19 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
                         {area.desc}
                       </span>
                     </div>
+                    <ChevronRight className="w-3.5 h-3.5 text-[#B88E5E] opacity-0 group-hover/item:opacity-100 transition-opacity" />
                   </button>
                 );
               })}
+              <div className="pt-2 mt-1 border-t border-[#E8E2D8]">
+                <button
+                  onClick={() => handleNavClick('home', 'areas')}
+                  className="w-full text-center text-[11px] font-semibold text-[#8C663D] hover:text-[#B88E5E] py-1 cursor-pointer flex items-center justify-center gap-1"
+                >
+                  <span>Ver visão geral de todas as áreas</span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+              </div>
             </div>
           </div>
 
@@ -198,21 +219,18 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group flex items-center gap-2 px-3.5 py-1.5 border border-[#B88E5E] text-[#211C19] hover:bg-[#B88E5E] hover:text-white rounded-md transition-all duration-300 text-xs font-semibold tracking-wider"
+            className="inline-flex items-center justify-center gap-2 px-4 py-2 border border-[#B88E5E] text-[#B88E5E] hover:bg-[#B88E5E] hover:text-white rounded text-xs font-semibold uppercase tracking-wider transition-all duration-200 shadow-sm"
           >
-            <span className="text-[#B88E5E] group-hover:text-white transition-colors">
-              <MessageCircle className="w-3.5 h-3.5 fill-current" />
-            </span>
-            <span>{CONTACT_INFO.phone.whatsappDisplay || '(47) 99227-9984'}</span>
+            <MessageCircle className="w-3.5 h-3.5 fill-current" />
+            <span>(47) 99227-9984</span>
           </a>
         </div>
 
-        {/* Mobile Hamburger Toggle */}
+        {/* Mobile Menu Toggle Button */}
         <button
-          type="button"
-          aria-label="Abrir menu"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 text-[#211C19] hover:text-[#B88E5E] transition-colors"
+          className="lg:hidden p-2 text-[#211C19] hover:text-[#B88E5E] focus:outline-none cursor-pointer"
+          aria-label="Abrir menu de navegação"
         >
           {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -225,9 +243,10 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-[#FAF7F2] border-b border-[#E8E2D8] px-5 py-5 shadow-2xl overflow-hidden max-h-[85vh] overflow-y-auto"
+            transition={{ duration: 0.25 }}
+            className="lg:hidden bg-[#FAF7F2] border-b border-[#E8E2D8] shadow-lg overflow-hidden"
           >
-            <div className="flex flex-col gap-2">
+            <div className="px-6 py-4 flex flex-col space-y-1">
               {/* 1. Início */}
               <button
                 onClick={() => handleNavClick('home')}
@@ -261,11 +280,14 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
                   <div className="mt-2 pl-2 pr-1 space-y-1.5 bg-white/50 rounded-xl p-2.5 border border-[#E8E2D8]/80">
                     {practiceAreasList.map((area) => {
                       const Icon = area.icon;
+                      const isCurrent = currentPage === area.slug;
                       return (
                         <button
-                          key={area.id}
-                          onClick={() => handleNavClick('home', area.id)}
-                          className="w-full text-left flex items-center justify-between p-2 rounded-lg hover:bg-white transition-colors group cursor-pointer"
+                          key={area.slug}
+                          onClick={() => handleNavClick(area.slug)}
+                          className={`w-full text-left flex items-center justify-between p-2 rounded-lg transition-colors group cursor-pointer ${
+                            isCurrent ? 'bg-white text-[#B88E5E]' : 'hover:bg-white'
+                          }`}
                         >
                           <div className="flex items-center gap-2.5">
                             <div className="w-6 h-6 rounded-md bg-[#FAF7F2] flex items-center justify-center text-[#B88E5E] group-hover:scale-105 transition-transform">
@@ -340,4 +362,3 @@ export const Navbar: React.FC<NavbarProps> = ({ currentPage, onNavigate }) => {
     </header>
   );
 };
-

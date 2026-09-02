@@ -4,7 +4,11 @@ import { MessageCircle } from 'lucide-react';
 import rosanaImg from '../assets/rosana.jpg';
 import { CONTACT_INFO } from '../contactConfig';
 
-export const Hero: React.FC = () => {
+interface HeroProps {
+  onNavigate?: (page: string, anchor?: string) => void;
+}
+
+export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
   const whatsappUrl = `https://wa.me/${CONTACT_INFO.phone.whatsappNumber}?text=${encodeURIComponent(
     CONTACT_INFO.whatsappMessage
   )}`;

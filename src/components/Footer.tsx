@@ -109,34 +109,34 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             <ul className="space-y-3 text-xs text-[#A89C8F]">
               <li>
                 <button
-                  onClick={() => handleLinkClick('home', 'area-familia')}
+                  onClick={() => handleLinkClick('familia')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Família (Divórcio, Guarda, Pensão e Partilha)
+                  Direito de Família (Divórcio, Guarda, Pensão)
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleLinkClick('home', 'area-sucessoes')}
+                  onClick={() => handleLinkClick('sucessoes')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Sucessões (Inventário, Testamento e Herança)
+                  Sucessões e Inventários (Cartório e Judicial)
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleLinkClick('home', 'area-imobiliario')}
+                  onClick={() => handleLinkClick('imobiliario')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Imobiliário (Contratos, Compra e Venda, Locações)
+                  Direito Imobiliário (Contratos e Due Diligence)
                 </button>
               </li>
               <li>
                 <button
-                  onClick={() => handleLinkClick('home', 'area-regularizacao')}
+                  onClick={() => handleLinkClick('regularizacao')}
                   className="hover:text-white transition-colors cursor-pointer text-left"
                 >
-                  Regularização de Imóveis (Usucapião e Registros)
+                  Regularização de Imóveis (Usucapião em Cartório)
                 </button>
               </li>
             </ul>
@@ -152,32 +152,22 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
                 <MapPin className="w-4 h-4 text-[#B88E5E] shrink-0 mt-0.5" />
                 <span>{CONTACT_INFO.address.full}</span>
               </div>
-              <div className="flex items-center gap-2.5">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 hover:text-white transition-colors"
+              >
                 <MessageCircle className="w-4 h-4 text-[#B88E5E] shrink-0" />
                 <span>WhatsApp: {CONTACT_INFO.phone.whatsappDisplay || '(47) 99227-9984'}</span>
-              </div>
-              <div className="flex items-center gap-2.5">
+              </a>
+              <a
+                href={`mailto:${CONTACT_INFO.email}`}
+                className="flex items-center gap-2.5 hover:text-white transition-colors"
+              >
                 <Mail className="w-4 h-4 text-[#B88E5E] shrink-0" />
                 <span>{CONTACT_INFO.email}</span>
-              </div>
-              <div className="pt-2 flex flex-col sm:flex-row gap-2">
-                <a
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-[#B88E5E] hover:bg-[#A57C4E] text-white rounded text-[11px] font-bold uppercase tracking-wider transition-colors"
-                >
-                  <MessageCircle className="w-3.5 h-3.5 fill-current" />
-                  Agendar Consulta
-                </a>
-
-                <button
-                  onClick={() => handleLinkClick('contato')}
-                  className="inline-flex items-center justify-center gap-1.5 px-3 py-2 bg-white/10 hover:bg-white/20 text-white rounded text-[11px] font-bold uppercase tracking-wider transition-colors cursor-pointer"
-                >
-                  Ver Mapa & Fixo
-                </button>
-              </div>
+              </a>
             </div>
           </div>
         </div>

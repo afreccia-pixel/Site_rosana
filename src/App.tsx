@@ -6,22 +6,54 @@ import { AreasOfPractice } from './components/AreasOfPractice';
 import { Testimonials } from './components/Testimonials';
 import { AboutPage } from './components/AboutPage';
 import { ContactPage } from './components/ContactPage';
+import { PracticeAreaPage } from './components/PracticeAreaPage';
 import { Footer } from './components/Footer';
 import { WhatsAppFloating } from './components/WhatsAppFloating';
 
+export type AppPage = 'home' | 'sobre' | 'contato' | 'familia' | 'sucessoes' | 'imobiliario' | 'regularizacao';
+
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'sobre' | 'contato'>('home');
+  const [currentPage, setCurrentPage] = useState<AppPage>('home');
 
   useEffect(() => {
     const handleRouteChange = () => {
       const hash = window.location.hash.toLowerCase();
       const path = window.location.pathname.toLowerCase();
 
-      if (hash === '#sobre' || path.endsWith('/sobre') || path.endsWith('/sobre/')) {
+      // Practice Areas Routes
+      if (
+        hash === '#familia' ||
+        hash === '#area-familia' ||
+        path.includes('/familia') ||
+        path.includes('/direito-de-familia')
+      ) {
+        setCurrentPage('familia');
+      } else if (
+        hash === '#sucessoes' ||
+        hash === '#area-sucessoes' ||
+        path.includes('/sucessoes') ||
+        path.includes('/inventario')
+      ) {
+        setCurrentPage('sucessoes');
+      } else if (
+        hash === '#imobiliario' ||
+        hash === '#area-imobiliario' ||
+        path.includes('/imobiliario') ||
+        path.includes('/direito-imobiliario')
+      ) {
+        setCurrentPage('imobiliario');
+      } else if (
+        hash === '#regularizacao' ||
+        hash === '#area-regularizacao' ||
+        path.includes('/regularizacao') ||
+        path.includes('/regularizacao-de-imoveis')
+      ) {
+        setCurrentPage('regularizacao');
+      } else if (hash === '#sobre' || path.endsWith('/sobre') || path.endsWith('/sobre/')) {
         setCurrentPage('sobre');
       } else if (hash === '#contato' || path.endsWith('/contato') || path.endsWith('/contato/')) {
         setCurrentPage('contato');
-      } else if (hash.startsWith('#area-') || hash === '#areas' || hash === '#avaliacoes') {
+      } else if (hash === '#areas' || hash === '#avaliacoes') {
         setCurrentPage('home');
         setTimeout(() => {
           const targetId = hash.replace('#', '');
@@ -45,7 +77,13 @@ export default function App() {
   }, []);
 
   const handleNavigate = (page: string, anchor?: string) => {
-    if (page === 'sobre') {
+    const validAreaPages: AppPage[] = ['familia', 'sucessoes', 'imobiliario', 'regularizacao'];
+
+    if (validAreaPages.includes(page as AppPage)) {
+      setCurrentPage(page as AppPage);
+      window.history.pushState(null, '', `#${page}`);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (page === 'sobre') {
       setCurrentPage('sobre');
       window.history.pushState(null, '', '#sobre');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -72,6 +110,8 @@ export default function App() {
     }
   };
 
+  const isPracticeAreaPage = ['familia', 'sucessoes', 'imobiliario', 'regularizacao'].includes(currentPage);
+
   return (
     <div className="min-h-screen bg-[#F8F5F0] text-[#211C19] selection:bg-[#B88E5E] selection:text-white flex flex-col">
       {/* Navigation Header */}
@@ -80,14 +120,14 @@ export default function App() {
       <main className="flex-1">
         {currentPage === 'home' && (
           <>
-            {/* Hero Section matching the reference layout */}
-            <Hero />
+            {/* Hero Section */}
+            <Hero onNavigate={handleNavigate} />
 
-            {/* 4 Pillars / Highlights Bar (Desktop Only) */}
+            {/* 4 Pillars / Highlights Bar */}
             <ValueProposition />
 
-            {/* Areas of Practice */}
-            <AreasOfPractice />
+            {/* Areas of Practice Summary Cards with Links to Full Pages */}
+            <AreasOfPractice onNavigate={handleNavigate} />
 
             {/* Verified Reviews / Testimonials */}
             <Testimonials />
@@ -100,6 +140,10 @@ export default function App() {
 
         {currentPage === 'contato' && (
           <ContactPage onNavigate={handleNavigate} />
+        )}
+
+        {isPracticeAreaPage && (
+          <PracticeAreaPage slug={currentPage} onNavigate={handleNavigate} />
         )}
       </main>
 

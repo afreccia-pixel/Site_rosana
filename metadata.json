@@ -1,6 +1,6 @@
 {
   "name": "Dra. Rosana Beling | Advocacia Especializada",
-  "description": "Site profissional e sofisticado para advocacia com foco em Direito Imobiliário, Família, Empresarial e Consultoria Jurídica.",
+  "description": "Site profissional com páginas dedicadas e pré-renderizadas para Direito de Família, Sucessões, Direito Imobiliário e Regularização de Imóveis com dados estruturados Schema.org.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
