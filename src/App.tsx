@@ -13,11 +13,13 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<'home' | 'sobre' | 'contato'>('home');
 
   useEffect(() => {
-    const handleHashChange = () => {
+    const handleRouteChange = () => {
       const hash = window.location.hash.toLowerCase();
-      if (hash === '#sobre') {
+      const path = window.location.pathname.toLowerCase();
+
+      if (hash === '#sobre' || path.endsWith('/sobre') || path.endsWith('/sobre/')) {
         setCurrentPage('sobre');
-      } else if (hash === '#contato') {
+      } else if (hash === '#contato' || path.endsWith('/contato') || path.endsWith('/contato/')) {
         setCurrentPage('contato');
       } else if (hash.startsWith('#area-') || hash === '#areas' || hash === '#avaliacoes') {
         setCurrentPage('home');
@@ -28,14 +30,18 @@ export default function App() {
             el.scrollIntoView({ behavior: 'smooth' });
           }
         }, 100);
-      } else if (hash === '#home' || hash === '' || hash === '#') {
+      } else if (hash === '#home' || hash === '' || hash === '#' || path.endsWith('/') || path.endsWith('/index.html')) {
         setCurrentPage('home');
       }
     };
 
-    handleHashChange();
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    handleRouteChange();
+    window.addEventListener('hashchange', handleRouteChange);
+    window.addEventListener('popstate', handleRouteChange);
+    return () => {
+      window.removeEventListener('hashchange', handleRouteChange);
+      window.removeEventListener('popstate', handleRouteChange);
+    };
   }, []);
 
   const handleNavigate = (page: string, anchor?: string) => {

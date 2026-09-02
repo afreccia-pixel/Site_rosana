@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'motion/react';
 import { Mail, MapPin, MessageCircle, Clock, CheckCircle2, ArrowLeft, ExternalLink, Phone, Navigation } from 'lucide-react';
 import { CONTACT_INFO } from '../contactConfig';
+import fachadaImg from '../assets/fachada.webp';
 
 interface ContactPageProps {
   onNavigate: (page: string, anchor?: string) => void;
@@ -80,10 +81,27 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
             <div className="rounded-2xl overflow-hidden shadow-xl border border-[#E8E2D8] bg-white group">
               <div className="relative aspect-[4/3] overflow-hidden bg-[#FAF7F2]">
                 <img
-                  src="/fachada.jpg"
+                  src={fachadaImg || '/fachada.webp'}
                   alt="Escritório RB Advocacia - Dra. Rosana Beling em Balneário Camboriú"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    const step = parseInt(target.dataset.tried || '0', 10);
+                    const fallbacks = [
+                      '/fachada.webp',
+                      './fachada.webp',
+                      '/fachada.jpg',
+                      './fachada.jpg',
+                      '/fachada.jpeg',
+                      './fachada.jpeg',
+                      '/fachada_escritorio_1788348546844.jpg'
+                    ];
+                    if (step < fallbacks.length) {
+                      target.dataset.tried = String(step + 1);
+                      target.src = fallbacks[step];
+                    }
+                  }}
                 />
                 <div className="absolute top-4 left-4 bg-[#211C19]/80 backdrop-blur-md text-white text-[10px] font-bold uppercase tracking-widest px-3 py-1.5 rounded-full border border-white/20">
                   Nosso Escritório
