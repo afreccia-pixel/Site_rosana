@@ -1,14 +1,28 @@
 import React from 'react';
 import { CONTACT_INFO } from '../contactConfig';
 
-export const Logo: React.FC<{ variant?: 'light' | 'dark'; size?: 'sm' | 'md' | 'lg' }> = ({
+export const Logo: React.FC<{
+  variant?: 'light' | 'dark';
+  size?: 'sm' | 'md' | 'lg';
+  onClick?: () => void;
+}> = ({
   variant = 'dark',
   size = 'md',
+  onClick,
 }) => {
   const isLight = variant === 'light';
 
   return (
-    <a href="#" className="flex items-center gap-3.5 group text-left">
+    <a
+      href="#"
+      onClick={(e) => {
+        if (onClick) {
+          e.preventDefault();
+          onClick();
+        }
+      }}
+      className="flex items-center gap-3.5 group text-left cursor-pointer"
+    >
       {/* Monogram RB */}
       <div className="flex items-center justify-center font-serif text-[#B88E5E] select-none">
         <span
