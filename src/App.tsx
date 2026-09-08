@@ -123,7 +123,7 @@ export default function App() {
             {/* Hero Section */}
             <Hero onNavigate={handleNavigate} />
 
-            {/* 4 Pillars / Highlights Bar */}
+            {/* 4 Pillars / Highlights Bar (Selos centralizados com a página em baixo da foto e do texto) */}
             <ValueProposition />
 
             {/* Areas of Practice Summary Cards with Links to Full Pages */}

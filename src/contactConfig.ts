@@ -9,6 +9,10 @@ export const CONTACT_INFO = {
   title: 'ROSANA BELING ADVOCACIA',
   tagline: 'ADVOCACIA COM PROPÓSITO',
   
+  // Domínio do site
+  domain: 'https://rosanabeling.com.br',
+  domainRaw: 'rosanabeling.com.br',
+  
   // Endereço completo
   address: {
     street: 'Av. Brasil, 2816',

@@ -1,12 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 
-const DOMAIN = 'https://SEU_DOMINIO.com.br';
-const TODAY = new Date().toISOString().split('T')[0];
-
 function loadContactConfig() {
   try {
     const content = fs.readFileSync(path.resolve(process.cwd(), 'src/contactConfig.ts'), 'utf8');
+    const domain = (content.match(/domain:\s*['"]([^'"]+)['"]/) || [])[1] || 'https://rosanabeling.com.br';
     const whatsappNumber = (content.match(/whatsappNumber:\s*['"]([^'"]+)['"]/) || [])[1] || '5547999779690';
     const whatsappDisplay = (content.match(/whatsappDisplay:\s*['"]([^'"]+)['"]/) || [])[1] || '(47) 99977-9690';
     const phoneDisplay = (content.match(/display:\s*['"]([^'"]+)['"]/) || [])[1] || '(47) 3367-5448';
@@ -14,9 +12,10 @@ function loadContactConfig() {
     const oab = (content.match(/oab:\s*['"]([^'"]+)['"]/) || [])[1] || 'OAB/SC 24.701';
     const street = (content.match(/street:\s*['"]([^'"]+)['"]/) || [])[1] || 'Av. Brasil, 2816';
     const fullAddress = (content.match(/full:\s*['"]([^'"]+)['"]/) || [])[1] || 'Av. Brasil, 2816 - Centro, Balneário Camboriú - SC, 88330-058';
-    return { whatsappNumber, whatsappDisplay, phoneDisplay, email, oab, street, fullAddress };
+    return { domain, whatsappNumber, whatsappDisplay, phoneDisplay, email, oab, street, fullAddress };
   } catch {
     return {
+      domain: 'https://rosanabeling.com.br',
       whatsappNumber: '5547999779690',
       whatsappDisplay: '(47) 99977-9690',
       phoneDisplay: '(47) 3367-5448',
@@ -29,6 +28,8 @@ function loadContactConfig() {
 }
 
 const CONTACT = loadContactConfig();
+const DOMAIN = CONTACT.domain || 'https://rosanabeling.com.br';
+const TODAY = new Date().toISOString().split('T')[0];
 
 const PRACTICE_AREAS = [
   {

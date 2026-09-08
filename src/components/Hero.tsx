@@ -102,8 +102,8 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
               Atuação especializada em Direito de Família, Sucessões e Imobiliário, com foco em segurança jurídica e resultados eficientes.
             </p>
 
-            {/* 4. Rectangular Solid Gold Button with WhatsApp Icon (hidden on mobile mode) */}
-            <div className="hidden md:block">
+            {/* 4. Rectangular Solid Gold Button with WhatsApp Icon */}
+            <div>
               <a
                 href={whatsappUrl}
                 target="_blank"
@@ -120,5 +120,6 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
     </section>
   );
 };
+
 
 

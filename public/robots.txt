@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://afreccia-pixel.github.io/Site_rosana/sitemap.xml
+Sitemap: https://rosanabeling.com.br/sitemap.xml

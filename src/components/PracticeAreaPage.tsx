@@ -59,7 +59,7 @@ export const PracticeAreaPage: React.FC<PracticeAreaPageProps> = ({ slug, onNavi
     'provider': {
       '@type': 'LegalService',
       'name': 'Rosana Beling Advocacia',
-      'url': 'https://SEU_DOMINIO.com.br/',
+      'url': `${CONTACT_INFO.domain}/`,
       'telephone': `+${CONTACT_INFO.phone.whatsappNumber}`,
       'priceRange': '$$',
       'address': {
@@ -99,19 +99,19 @@ export const PracticeAreaPage: React.FC<PracticeAreaPageProps> = ({ slug, onNavi
         '@type': 'ListItem',
         'position': 1,
         'name': 'Início',
-        'item': 'https://SEU_DOMINIO.com.br/'
+        'item': `${CONTACT_INFO.domain}/`
       },
       {
         '@type': 'ListItem',
         'position': 2,
         'name': 'Áreas de Atuação',
-        'item': 'https://SEU_DOMINIO.com.br/#areas'
+        'item': `${CONTACT_INFO.domain}/#areas`
       },
       {
         '@type': 'ListItem',
         'position': 3,
         'name': area.title,
-        'item': `https://SEU_DOMINIO.com.br/${area.slug}`
+        'item': `${CONTACT_INFO.domain}/${area.slug}`
       }
     ]
   };
