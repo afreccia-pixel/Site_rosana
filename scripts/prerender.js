@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import sharp from 'sharp';
 
 function loadContactConfig() {
   try {
@@ -303,6 +304,14 @@ async function runPrerender() {
     throw new Error('Build template missing');
   }
 
+  // Publish raster favicons alongside the SVG for search engines and Apple devices.
+  for (const size of [48, 192]) {
+    await sharp('public/favicon.svg').resize(size, size).png()
+      .toFile(path.join(distDir, `favicon-${size}.png`));
+  }
+  await sharp('public/favicon.svg').resize(180, 180).png()
+    .toFile(path.join(distDir, 'apple-touch-icon.png'));
+
   const baseTemplate = fs.readFileSync(templatePath, 'utf8');
 
   console.log('Generating Pre-rendered HTML and Structured Data for all routes...');
@@ -507,11 +516,14 @@ async function runPrerender() {
 
   // 4. Generate Comprehensive Sitemap XML
   const sitemapXml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 ${sitemapUrls
   .map(
     (item) => `  <url>
-    <loc>${item.loc}</loc>
+    <loc>${item.loc}</loc>${item.loc === `${DOMAIN}/` ? `
+    <image:image>
+      <image:loc>${DOMAIN}/rosana_favicon.jpg</image:loc>
+    </image:image>` : ''}
     <lastmod>${TODAY}</lastmod>
     <changefreq>${item.changefreq}</changefreq>
     <priority>${item.priority}</priority>
