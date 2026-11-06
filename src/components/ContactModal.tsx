@@ -15,9 +15,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
     CONTACT_INFO.whatsappMessage
   )}`;
 
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    CONTACT_INFO.address.full
-  )}`;
+  const mapsUrl = CONTACT_INFO.mapsProfileUrl;
 
   return (
     <AnimatePresence>
@@ -140,7 +138,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({ isOpen, onClose }) =
               </div>
               <div className="text-xs text-[#5C544E]">
                 <strong className="text-[#211C19] block mb-0.5">Horário de Atendimento:</strong>
-                Segunda a Sexta das 08h30 às 18h00 (atendimentos presenciais com agendamento prévio).
+                {CONTACT_INFO.hoursDisplay} (atendimentos presenciais com agendamento prévio).
               </div>
             </div>
           </div>

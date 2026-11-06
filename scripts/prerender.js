@@ -13,8 +13,10 @@ function loadContactConfig() {
     const email = (content.match(/email:\s*['"]([^'"]+)['"]/) || [])[1] || 'rb.advocaciabc@gmail.com';
     const oab = (content.match(/oab:\s*['"]([^'"]+)['"]/) || [])[1] || 'OAB/SC 24.701';
     const street = (content.match(/street:\s*['"]([^'"]+)['"]/) || [])[1] || 'Av. Brasil, 2816';
+    const hoursDisplay = (content.match(/hoursDisplay:\s*['"]([^'"]+)['"]/) || [])[1] || 'Segunda a sexta-feira, das 9h às 12h e das 13h30 às 18h';
+    const mapsProfileUrl = (content.match(/mapsProfileUrl:\s*['"]([^'"]+)['"]/) || [])[1];
     const fullAddress = (content.match(/full:\s*['"]([^'"]+)['"]/) || [])[1] || 'Av. Brasil, 2816 - Centro, Balneário Camboriú - SC, 88330-058';
-    return { domain, whatsappNumber, whatsappDisplay, phoneDisplay, email, oab, street, fullAddress };
+    return { domain, whatsappNumber, whatsappDisplay, phoneDisplay, email, oab, street, fullAddress, hoursDisplay, mapsProfileUrl };
   } catch {
     return {
       domain: 'https://rosanabeling.com.br',
@@ -24,6 +26,7 @@ function loadContactConfig() {
       email: 'rb.advocaciabc@gmail.com',
       oab: 'OAB/SC 24.701',
       street: 'Av. Brasil, 2816',
+      hoursDisplay: 'Segunda a sexta-feira, das 9h às 12h e das 13h30 às 18h',
       fullAddress: 'Av. Brasil, 2816 - Centro, Balneário Camboriú - SC, 88330-058',
     };
   }
@@ -517,6 +520,8 @@ async function runPrerender() {
       <p>Endereço: ${CONTACT.fullAddress}</p>
       <p><a href="https://wa.me/${CONTACT.whatsappNumber}">WhatsApp: ${CONTACT.whatsappDisplay}</a></p>
       <p>Telefone: ${CONTACT.phoneDisplay}</p>
+      <p>Horário: ${CONTACT.hoursDisplay}.</p>
+      ${CONTACT.mapsProfileUrl ? `<p><a href="${CONTACT.mapsProfileUrl}">Ver o escritório no Google Maps</a></p>` : ''}
       <p><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></p>
       <p>Entre em contato para agendar atendimento presencial ou online.</p>`),
     title: 'Contato e Localização | Dra. Rosana Beling Advocacia Balneário Camboriú',

@@ -34,9 +34,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
     CONTACT_INFO.whatsappMessage
   )}`;
 
-  const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    CONTACT_INFO.address.full
-  )}`;
+  const mapsUrl = CONTACT_INFO.mapsProfileUrl;
 
   return (
     <div className="pt-24 md:pt-32 pb-20 bg-[#F5F0EC]">
@@ -158,7 +156,7 @@ export const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
               </div>
               <div className="text-xs text-[#5C544E]">
                 <strong className="text-[#211C19] block mb-0.5">Horário de Atendimento:</strong>
-                Segunda a Sexta-feira das 08h30 às 18h00. Atendimentos presenciais mediante agendamento prévio.
+                {CONTACT_INFO.hoursDisplay}. Atendimentos presenciais mediante agendamento prévio.
               </div>
             </div>
           </motion.div>

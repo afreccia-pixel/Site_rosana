@@ -118,7 +118,7 @@ export const Contact: React.FC = () => {
                     Horário de Atendimento
                   </h4>
                   <p className="text-xs text-[#5C544E]">
-                    Segunda a Sexta: 08h30 às 18h00
+                    {CONTACT_INFO.hoursDisplay}
                   </p>
                 </div>
               </div>
