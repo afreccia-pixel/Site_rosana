@@ -91,11 +91,11 @@ export const AreasOfPractice: React.FC<AreasOfPracticeProps> = ({ onNavigate }) 
             ÁREAS DE ATUAÇÃO
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#211C19] font-normal leading-tight mb-4">
-            Especialidades jurídicas com foco na sua tranquilidade
+            Escritório de advocacia em Balneário Camboriú
           </h2>
           <div className="w-12 h-[2px] bg-[#B88E5E] mx-auto mb-5" />
           <p className="text-[#5C544E] text-sm md:text-base leading-relaxed font-light">
-            Clique na especialidade desejada para acessar a página completa com artigos, serviços detalhados e orientações práticas.
+            Conheça as áreas de atuação da Dra. Rosana Beling e veja os serviços, as etapas de atendimento e as orientações para a primeira consulta.
           </p>
         </div>
 
@@ -157,14 +157,14 @@ export const AreasOfPractice: React.FC<AreasOfPracticeProps> = ({ onNavigate }) 
 
                 <div className="space-y-2.5 pt-4 border-t border-[#E8E2D8]">
                   {/* Primary Action: Open Dedicated Area Page */}
-                  <button
-                    onClick={() => handleCardClick(area.slug)}
+                  <a
+                    href={`/${area.slug}`}
                     className="w-full inline-flex items-center justify-center gap-2 py-2.5 px-4 bg-[#FAF7F2] hover:bg-[#B88E5E] text-[#211C19] hover:text-white border border-[#E8E2D8] hover:border-[#B88E5E] rounded-lg text-xs font-semibold uppercase tracking-wider transition-all duration-200 cursor-pointer group/btn"
                   >
                     <BookOpen className="w-3.5 h-3.5 text-[#B88E5E] group-hover/btn:text-white transition-colors" />
-                    <span>Ver Página da Área</span>
+                    <span>Conhecer {area.title}</span>
                     <ArrowRight className="w-3.5 h-3.5 transform group-hover/btn:translate-x-1 transition-transform" />
-                  </button>
+                  </a>
 
                   {/* Secondary Action: Direct WhatsApp */}
                   <a

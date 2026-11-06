@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import sharp from 'sharp';
+import { LOCAL_SERVICE_CONTENT } from '../src/data/localSeo.js';
 
 function loadContactConfig() {
   try {
@@ -325,6 +326,7 @@ async function runPrerender() {
   // 1. Process Practice Areas
   for (const area of PRACTICE_AREAS) {
     const areaPath = `/${area.slug}`;
+    const localContent = LOCAL_SERVICE_CONTENT[area.slug];
     sitemapUrls.push({
       loc: `${DOMAIN}${areaPath}`,
       changefreq: 'weekly',
@@ -401,10 +403,19 @@ async function runPrerender() {
         
         <header style="margin-bottom: 2.5rem; padding-top: 0.5rem;">
           <span style="font-size: 0.8rem; font-weight: bold; color: #B88E5E; letter-spacing: 0.2em; text-transform: uppercase;">${area.tag} • OAB/SC 24.701</span>
-          <h1 style="font-size: 2.2rem; line-height: 1.2; margin-top: 0.5rem; margin-bottom: 1rem; color: #211C19;">${area.title.split(' | ')[0]}</h1>
+          <h1 style="font-size: 2.2rem; line-height: 1.2; margin-top: 0.5rem; margin-bottom: 1rem; color: #211C19;">${localContent.heading}</h1>
           <p>${area.headline}</p>
           <p style="font-size: 1.1rem; color: #5C544E; line-height: 1.6; margin-bottom: 0;">${area.subtitle}</p>
         </header>
+
+        <section style="margin-bottom: 2.5rem;">
+          <p>${localContent.introduction}</p>
+          <h2>Como se preparar para a primeira consulta</h2>
+          <p>Para facilitar a análise inicial, reúna o que já tiver disponível:</p>
+          <ul>${localContent.documents.map(document => `<li>${document}</li>`).join('')}</ul>
+          <p>A documentação necessária será confirmada conforme o caso. O atendimento pode ser presencial ou online, mediante agendamento.</p>
+          <a href="/contato">Contato e localização do escritório</a>
+        </section>
 
         <section style="margin-bottom: 2.5rem;">
           <h2 style="font-size: 1.7rem; color: #211C19; margin-bottom: 1.5rem; border-bottom: 2px solid #B88E5E; padding-bottom: 0.5rem; display: inline-block;">Serviços Especializados em ${area.tag}</h2>

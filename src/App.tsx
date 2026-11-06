@@ -78,37 +78,10 @@ export default function App() {
   }, []);
 
   const handleNavigate = (page: string, anchor?: string) => {
-    const validAreaPages: AppPage[] = ['familia', 'sucessoes', 'imobiliario', 'regularizacao'];
-
-    if (validAreaPages.includes(page as AppPage)) {
-      setCurrentPage(page as AppPage);
-      window.history.pushState(null, '', `#${page}`);
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (page === 'sobre') {
-      setCurrentPage('sobre');
-      window.history.pushState(null, '', '#sobre');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (page === 'contato') {
-      setCurrentPage('contato');
-      window.history.pushState(null, '', '#contato');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else {
-      setCurrentPage('home');
-      if (anchor) {
-        window.history.pushState(null, '', `#${anchor}`);
-        setTimeout(() => {
-          const el = document.getElementById(anchor);
-          if (el) {
-            el.scrollIntoView({ behavior: 'smooth' });
-          } else {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }
-        }, 100);
-      } else {
-        window.history.pushState(null, '', '#');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
+    const validPages = ['sobre', 'contato', 'familia', 'sucessoes', 'imobiliario', 'regularizacao'];
+    const targetPath = validPages.includes(page) ? `/${page}` : '/';
+    const target = `${targetPath}${anchor ? `#${anchor}` : ''}`;
+    window.location.assign(target);
   };
 
   const isPracticeAreaPage = ['familia', 'sucessoes', 'imobiliario', 'regularizacao'].includes(currentPage);

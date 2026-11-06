@@ -20,7 +20,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
         <div className="relative h-[94%] lg:h-[98%] xl:h-full max-h-[760px] 2xl:max-h-[840px] w-full flex items-end justify-end pr-0 lg:pr-2 xl:pr-6">
           <img
             src={rosanaImg || '/rosana.jpg'}
-            alt="Dra. Rosana Beling - Advocacia com Propósito"
+            alt="Dra. Rosana Beling, advogada em Balneário Camboriú"
             className="h-full w-auto max-w-full object-contain object-bottom"
             style={{
               maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.2) 10%, rgba(0,0,0,0.85) 24%, black 38%)',
@@ -51,7 +51,7 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
             <div className="relative rounded-2xl overflow-hidden shadow-lg border border-[#E8E2D8] bg-[#EBE4D8]/40 max-w-sm mx-auto">
               <img
                 src={rosanaImg || '/rosana.jpg'}
-                alt="Dra. Rosana Beling"
+                alt="Dra. Rosana Beling, advogada em Balneário Camboriú"
                 className="w-full h-auto object-cover max-h-[380px]"
                 onError={(e) => {
                   const target = e.currentTarget;
@@ -89,17 +89,20 @@ export const Hero: React.FC<HeroProps> = ({ onNavigate }) => {
 
             {/* 2. Elegant Serif Headline */}
             <h1 className="font-serif text-3xl sm:text-4xl md:text-[44px] lg:text-[48px] xl:text-[52px] text-[#211C19] font-normal leading-[1.14] tracking-tight mb-4 sm:mb-5">
-              Soluções jurídicas<br />
-              com estratégia e<br />
-              acolhimento.
+              Advogada em Balneário Camboriú<br />
+              <span className="text-[#8C663D]">Rosana Beling</span>
             </h1>
+
+            <p className="font-serif text-lg sm:text-xl text-[#5C544E] mb-5">
+              Soluções jurídicas com estratégia e acolhimento.
+            </p>
 
             {/* Subtle Gold Accent Divider */}
             <div className="w-12 h-[2px] bg-[#B88E5E] mb-5 sm:mb-6" />
 
             {/* 3. Descriptive Paragraph */}
             <p className="text-[#4A423D] text-sm sm:text-[15px] md:text-base leading-relaxed max-w-lg mb-7 sm:mb-9 font-normal">
-              Atuação especializada em Direito de Família, Sucessões e Imobiliário, com foco em segurança jurídica e resultados eficientes.
+              Escritório de advocacia no Centro de Balneário Camboriú, com atuação em Direito de Família, Inventários e Sucessões, Direito Imobiliário e Regularização de Imóveis. Atendimento presencial ou online mediante agendamento.
             </p>
 
             {/* 4. Rectangular Solid Gold Button with WhatsApp Icon */}

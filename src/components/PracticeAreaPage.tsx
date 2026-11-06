@@ -13,6 +13,7 @@ import {
   HelpCircle,
   Sparkles
 } from 'lucide-react';
+import { LOCAL_SERVICE_CONTENT } from '../data/localSeo.js';
 import { CONTACT_INFO } from '../contactConfig';
 import { PRACTICE_AREAS_DATA, PracticeAreaDetail } from '../data/practiceAreasData';
 
@@ -23,6 +24,7 @@ interface PracticeAreaPageProps {
 
 export const PracticeAreaPage: React.FC<PracticeAreaPageProps> = ({ slug, onNavigate }) => {
   const area: PracticeAreaDetail = PRACTICE_AREAS_DATA[slug] || PRACTICE_AREAS_DATA['familia'];
+  const localContent = LOCAL_SERVICE_CONTENT[area.slug];
   const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
   useEffect(() => {
@@ -196,14 +198,26 @@ export const PracticeAreaPage: React.FC<PracticeAreaPageProps> = ({ slug, onNavi
             </div>
 
             <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#211C19] font-normal leading-tight mb-5">
-              {area.headline}
+              {localContent.heading}
             </h1>
+            <p className="font-serif text-lg text-[#5C544E] mb-4">{area.headline}</p>
 
             <p className="text-base sm:text-lg text-[#5C544E] leading-relaxed font-light">
               {area.subtitle}
             </p>
           </div>
         </motion.div>
+
+        <section className="max-w-4xl mb-14 space-y-5" aria-labelledby="primeira-consulta">
+          <p className="text-sm sm:text-base text-[#5C544E] leading-relaxed">{localContent.introduction}</p>
+          <h2 id="primeira-consulta" className="font-serif text-2xl sm:text-3xl">Como se preparar para a primeira consulta</h2>
+          <p className="text-sm sm:text-base text-[#5C544E]">Para facilitar a análise inicial, reúna o que já tiver disponível:</p>
+          <ul className="list-disc pl-5 space-y-2 text-sm sm:text-base text-[#5C544E]">
+            {localContent.documents.map(document => <li key={document}>{document}</li>)}
+          </ul>
+          <p className="text-sm text-[#5C544E]">A documentação necessária será confirmada conforme o caso. O atendimento pode ser presencial ou online, mediante agendamento.</p>
+          <a href="/contato" className="inline-block text-[#8C663D] underline">Contato e localização do escritório</a>
+        </section>
 
         {/* INSTITUTIONAL OVERVIEW & STRATEGIC APPROACH */}
         <div className="max-w-4xl mb-16 space-y-6">
