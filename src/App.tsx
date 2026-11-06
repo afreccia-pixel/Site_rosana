@@ -32,6 +32,7 @@ export default function App() {
         hash === '#sucessoes' ||
         hash === '#area-sucessoes' ||
         path.includes('/sucessoes') ||
+        path.includes('/direito-das-sucessoes') ||
         path.includes('/inventario')
       ) {
         setCurrentPage('sucessoes');

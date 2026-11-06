@@ -269,10 +269,15 @@ function generateHtmlForRoute(baseTemplate, routeConfig) {
 
   // Inject Rich Pre-Rendered Markup in #root
   if (routeConfig.renderedContent) {
-    html = html.replace(
-      /<div id="root">[\s\S]*?<\/div>\s*<script/i,
-      `<div id="root">\n${routeConfig.renderedContent}\n</div>\n<script`
-    );
+    // Vite moves the module script to <head>; do not depend on a script after #root.
+    const rootStart = html.indexOf('<div id="root">');
+    const rootEnd = html.lastIndexOf('</div>', html.indexOf('</body>'));
+    if (rootStart < 0 || rootEnd < rootStart) {
+      throw new Error(`Root container missing for ${routeConfig.path}`);
+    }
+    html = html.slice(0, rootStart) +
+      `<div id="root">\n${routeConfig.renderedContent}\n</div>` +
+      html.slice(rootEnd + '</div>'.length);
   }
 
   // Inject Schemas if provided
@@ -295,7 +300,7 @@ async function runPrerender() {
 
   if (!fs.existsSync(templatePath)) {
     console.error('dist/index.html not found. Run vite build first.');
-    return;
+    throw new Error('Build template missing');
   }
 
   const baseTemplate = fs.readFileSync(templatePath, 'utf8');
@@ -387,7 +392,8 @@ async function runPrerender() {
         
         <header style="margin-bottom: 2.5rem; padding-top: 0.5rem;">
           <span style="font-size: 0.8rem; font-weight: bold; color: #B88E5E; letter-spacing: 0.2em; text-transform: uppercase;">${area.tag} • OAB/SC 24.701</span>
-          <h1 style="font-size: 2.2rem; line-height: 1.2; margin-top: 0.5rem; margin-bottom: 1rem; color: #211C19;">${area.headline}</h1>
+          <h1 style="font-size: 2.2rem; line-height: 1.2; margin-top: 0.5rem; margin-bottom: 1rem; color: #211C19;">${area.title.split(' | ')[0]}</h1>
+          <p>${area.headline}</p>
           <p style="font-size: 1.1rem; color: #5C544E; line-height: 1.6; margin-bottom: 0;">${area.subtitle}</p>
         </header>
 
@@ -450,16 +456,31 @@ async function runPrerender() {
         if (!fs.existsSync(aliasDir)) fs.mkdirSync(aliasDir, { recursive: true });
         fs.writeFileSync(path.join(aliasDir, 'index.html'), htmlOutput);
         console.log(`✓ Pre-rendered alias: dist/${alias}/index.html`);
-        sitemapUrls.push({ loc: `${DOMAIN}/${alias}`, changefreq: 'monthly', priority: '0.7' });
+        // Aliases stay accessible, but only canonical URLs belong in the sitemap.
       }
     }
   }
+
+  const pageContent = (heading, content) => `
+    <main style="font-family:serif;padding:2rem;max-width:1200px;margin:auto;color:#211C19;background:#F8F5F0">
+      <nav aria-label="Navegação principal">
+        <a href="/">Início</a> · <a href="/sobre">Sobre</a> · <a href="/contato">Contato</a> ·
+        ${PRACTICE_AREAS.map(area => `<a href="/${area.slug}">${area.title.split(' | ')[0]}</a>`).join(' · ')}
+      </nav>
+      <h1>${heading}</h1>
+      ${content}
+    </main>`;
 
   // 2. Process /sobre Page
   const sobreDir = path.join(distDir, 'sobre');
   if (!fs.existsSync(sobreDir)) fs.mkdirSync(sobreDir, { recursive: true });
   const sobreHtml = generateHtmlForRoute(baseTemplate, {
     path: '/sobre',
+    renderedContent: pageContent('Dra. Rosana Beling — Advogada em Balneário Camboriú', `
+      <p>${CONTACT.oab}</p>
+      <p>Atuação em Direito de Família, Sucessões, Direito Imobiliário e Regularização de Imóveis em Balneário Camboriú e região.</p>
+      <p>Atendimento jurídico com estratégia, ética e acolhimento.</p>
+      <p><a href="/contato">Entre em contato com o escritório</a></p>`),
     title: 'Sobre a Dra. Rosana Beling | Advogada OAB/SC 24.701 em Balneário Camboriú',
     description: 'Conheça a trajetória e o compromisso ético da Dra. Rosana Beling (OAB/SC 24.701). Especialista em Direito de Família, Sucessões, Direito Imobiliário e Regularização de Imóveis.',
   });
@@ -471,6 +492,13 @@ async function runPrerender() {
   if (!fs.existsSync(contatoDir)) fs.mkdirSync(contatoDir, { recursive: true });
   const contatoHtml = generateHtmlForRoute(baseTemplate, {
     path: '/contato',
+    renderedContent: pageContent('Contato e localização em Balneário Camboriú', `
+      <p>Rosana Beling Advocacia — ${CONTACT.oab}</p>
+      <p>Endereço: ${CONTACT.fullAddress}</p>
+      <p><a href="https://wa.me/${CONTACT.whatsappNumber}">WhatsApp: ${CONTACT.whatsappDisplay}</a></p>
+      <p>Telefone: ${CONTACT.phoneDisplay}</p>
+      <p><a href="mailto:${CONTACT.email}">${CONTACT.email}</a></p>
+      <p>Entre em contato para agendar atendimento presencial ou online.</p>`),
     title: 'Contato e Localização | Dra. Rosana Beling Advocacia Balneário Camboriú',
     description: `Agende uma consulta presencial ou online com a Dra. Rosana Beling. Escritório na ${CONTACT.street} - Centro, Balneário Camboriú - SC. WhatsApp ${CONTACT.whatsappDisplay}.`,
   });
@@ -494,10 +522,13 @@ ${sitemapUrls
 `;
 
   fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemapXml);
-  fs.writeFileSync(path.resolve(process.cwd(), 'public/sitemap.xml'), sitemapXml);
+
   console.log(`✓ Generated sitemap.xml with ${sitemapUrls.length} indexable URLs.`);
 
   console.log('SSG / Pre-rendering completed successfully!');
 }
 
-runPrerender().catch(console.error);
+runPrerender().catch(error => {
+  console.error(error);
+  process.exitCode = 1;
+});
